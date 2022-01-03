@@ -211,7 +211,7 @@ void killYourself()
 }
 void hitBorder()
 {
-    if ((player[0].x < 0) || (player[0].x > sizeX) || (player[0].y < 0) || (player[0].y >= sizeY))
+    if ((player[0].x < 0) || (player[0].x > sizeX) || (player[0].y < 0) || (player[0].y > sizeY))
     {
         die();
     }
