@@ -6,27 +6,11 @@
 #include "time.h"
 #include "math.h"
 #include "Windows.h"
-
-typedef struct
-{
-    int x, y;
-} segment;
-
-
-typedef struct fruit
-{
-    int x, y;
-} fruit;
+#include "string.h"
+typedef struct{int x, y;} segment;
+typedef struct fruit{int x, y;} fruit;
 fruit f = {5, 7};
-
-typedef enum
-{
-    up = -1,
-    down = 1,
-    left = -2,
-    right = 2
-} direction;
-
+typedef enum{up = -1,down = 1,left = -2,right = 2} direction;
 void displayClear(), changeDirection(), move(), clearscreen(), displayPlayer(), addSegment(), die(), killYourself(), hitBorder(), displayFruit(), gatherFruit(), spreadFruit(), printGame();
 direction current = left;
 segment player[30] = {{3, 4}, {3, 5}, {3, 6}, {3, 7}};
@@ -38,29 +22,32 @@ int timer = 300;
 
 int main(int argc, char const *argv[])
 {
-    
-        system("cls");
 
-        spreadFruit();
-        while (alive)
+    system("cls");
+
+    spreadFruit();
+    while (alive)
+    {
+
+        clearscreen();
+        if (_kbhit())
         {
-
-            clearscreen();
-            if (_kbhit())
-            {
-                changeDirection();
-            }
-            displayClear();
-            displayPlayer();
-            displayFruit();
-            printGame();
-            move();
-            Sleep(timer);
+            changeDirection();
         }
+        displayClear();
+        displayPlayer();
+        displayFruit();
+        printGame();
+        move();
+        Sleep(timer/2);
+    }
 
-        char flag = getc(stdin);
+    while(1)
+    {
+        
+    }
 
-        return 0;
+    return 0;
 }
 void clearscreen()
 {
@@ -160,9 +147,7 @@ void changeDirection()
         }
         current = right;
         break;
-    case 'p':
-        addSegment();
-        break;
+    
     default:
         break;
     }
@@ -172,9 +157,13 @@ void addSegment()
     if (SegmentCount == 30)
         return;
 
+    segment secondLastCopy = player[SegmentCount - 2];
     segment lastCopy = player[SegmentCount - 1];
-    move();
-    player[SegmentCount] = lastCopy;
+
+    int deltaX = lastCopy.x - secondLastCopy.x;
+    int deltaY = lastCopy.y - secondLastCopy.y;
+    segment newOne = {lastCopy.x+deltaX,lastCopy.y + deltaY};
+    player[SegmentCount] = newOne;
     SegmentCount++;
 }
 void die()
@@ -193,10 +182,7 @@ void die()
     {
         printf("--------------------\n");
     }
-    printf("your score is: %i", score);
-
-    
-
+    printf("your score is: %i\n", score);
 }
 void killYourself()
 {
@@ -211,7 +197,7 @@ void killYourself()
 }
 void hitBorder()
 {
-    if ((player[0].x < 0) || (player[0].x > sizeX) || (player[0].y < 0) || (player[0].y > sizeY))
+    if ((player[0].x < 0) || (player[0].x >= sizeX) || (player[0].y < 0) || (player[0].y >= sizeY))
     {
         die();
     }
@@ -219,9 +205,9 @@ void hitBorder()
 void spreadFruit()
 {
     srand(time(NULL));
-    f.x = rand() % sizeX;
+    f.x = (rand() % (sizeX - 4)) + 2;
     srand(time(NULL));
-    f.y = rand() % sizeY;
+    f.y = (rand() % (sizeY - 4)) + 2;
 }
 void gatherFruit()
 {
@@ -230,7 +216,6 @@ void gatherFruit()
     {
 
         score++;
-        timer -= score;
         spreadFruit();
         addSegment();
     }
@@ -245,25 +230,27 @@ void printGame()
     {
         for (int j = 0; j < sizeY; j++)
         {
-            
+            char t[8];
             switch (display[i][j])
             {
             case '#':
-                printf("\033[1;37m%c",219);    
-                 break;
-            
+                strcpy(t,"\033[1;37m");
+                break;
+
             case '@':
-                printf("\033[0;32m%c",219);    
-               
+
+                strcpy(t,"\033[0;32m");
                 break;
-            
+
             case '$':
-                printf("\033[0;31m%c",219);
+
+                strcpy(t,"\033[0;31m");
                 break;
-            
+
             default:
                 break;
             }
+            printf("%s%c%c", t,219,219);
         }
         printf("\n");
     }
