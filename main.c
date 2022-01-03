@@ -58,7 +58,7 @@ int main(int argc, char const *argv[])
             Sleep(timer);
         }
 
-        _getch();
+        char flag = getc(stdin);
 
         return 0;
 }
