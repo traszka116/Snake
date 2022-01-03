@@ -18,12 +18,15 @@ void clearscreen()
     SetConsoleCursorPosition(hOut, Position);
 }
 char display[sizeX][sizeY];
-void displayClear(), changeDirection(), move(), displayPlayer();
+void displayClear(), changeDirection(), move(), displayPlayer(), addSegment(),die();
 typedef struct
 {
     int x, y;
 } segment;
-segment player[4] = {{3, 4}, {3, 5}, {3, 6}, {3, 7}};
+segment player[30] = {{3, 4}, {3, 5}, {3, 6}, {3, 7}};
+
+int SegmentCount = 4;
+
 typedef enum
 {
     up = -1,
@@ -32,42 +35,29 @@ typedef enum
     right = 2
 } direction;
 
-typedef struct {
-    int x,y;
-}coin;
-
-
-
-
-
 direction current = left;
 
 byte alive = 1;
 byte score = 0;
 
-
-
 int main(int argc, char const *argv[])
-{   
+{
+
     system("cls");
 
-    while (1)
+    while (alive)
     {
 
         clearscreen();
         if (_kbhit())
         {
             changeDirection();
-            move();
-            displayClear();
-            displayPlayer();
         }
-        else
-        {
-            move();
-            displayClear();
-            displayPlayer();
-        }
+
+        
+        displayClear();
+        displayPlayer();
+        move();
         Sleep(300);
     }
 
@@ -88,7 +78,7 @@ void displayClear()
 void move()
 {
 
-    for (int i = 3; i > 0; i--)
+    for (int i = SegmentCount - 1; i > 0; i--)
     {
         player[i].x = player[i - 1].x;
         player[i].y = player[i - 1].y;
@@ -98,15 +88,32 @@ void move()
     {
     case up:
         player[0].x -= 1;
+        if (player[0].x<0)
+        {
+            die();
+        }
+        
         break;
     case down:
         player[0].x += 1;
+        if (player[0].x>sizeX)
+        {
+            die();
+        }
         break;
     case left:
         player[0].y -= 1;
+        if (player[0].y<0)
+        {
+            die();
+        }
         break;
     case right:
         player[0].y += 1;
+        if (player[0].y>sizeY)
+        {
+            die();
+        }
         break;
 
     default:
@@ -117,7 +124,7 @@ void move()
 void displayPlayer()
 {
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < SegmentCount; i++)
     {
         display[player[i].x][player[i].y] = '@';
     }
@@ -166,8 +173,47 @@ void changeDirection()
         }
         current = right;
         break;
-
+    case 'p':
+        addSegment();
+        break;
     default:
         break;
+    }
+}
+
+void addSegment()
+{
+    if (SegmentCount == 30)
+        return;
+
+    segment lastCopy = player[SegmentCount - 1];
+    move();
+    player[SegmentCount] = lastCopy;
+    SegmentCount++;
+}
+
+void die()
+{
+    
+    alive = 0;
+    clearscreen();
+    system("cls");
+    for(int i = 0;i<4;i++)
+    {
+        printf("--------------------\n");
+    }
+    printf("------Game Over-----\n");
+        for(int i = 0;i<4;i++)
+    {
+        printf("--------------------\n");
+    }
+}
+
+void killYourself()
+{
+    
+    for(int i = 1;i<SegmentCount;i++)
+    {
+        
     }
 }
