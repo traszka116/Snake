@@ -1,5 +1,5 @@
-#define sizeX 9
-#define sizeY 18
+#define sizeX 18
+#define sizeY 36
 #include "stdio.h"
 #include "stdlib.h"
 #include "conio.h"
@@ -24,27 +24,32 @@ typedef enum
     right = 2
 } direction;
 void displayClear(), changeDirection(), move(), clearscreen(), displayPlayer(), addSegment(), die(), killYourself(), hitBorder(), displayFruit(), gatherFruit(), spreadFruit(), printGame();
-direction current = left;
-segment player[30] = {{3, 4}, {3, 5}, {3, 6}, {3, 7}};
+direction current = right;
+segment player[50] = {{3, 7},{3, 6}, {3, 5},{3, 4} };
 char display[sizeX][sizeY];
 int SegmentCount = 4;
 byte alive = 1;
 byte score = 0;
-int timer = 300;
+int timer = 100;
 byte highscore = 0;
 int wantToPlay = 1;
+
+
+
+
 int main(int argc, char const *argv[])
 {
 
 start:
     alive = 1;
     score = 0;
-    player[0].x = 3;player[0].y = 4;
-    player[1].x = 3;player[1].y = 5;
-    player[2].x = 3;player[2].y = 6;
-    player[3].x = 3;player[3].y = 7;
+    timer = 100;
+    player[0].x = 3;player[0].y = 7;
+    player[1].x = 3;player[1].y = 6;
+    player[2].x = 3;player[2].y = 5;
+    player[3].x = 3;player[3].y = 4;
     SegmentCount = 4;
-    current = left;
+    current = right;
 
     
 
@@ -62,7 +67,7 @@ start:
         displayFruit();
         printGame();
         move();
-        Sleep(timer / 2);
+        Sleep(timer);
     }
     if (score > highscore)
     {
@@ -184,7 +189,7 @@ void changeDirection()
 }
 void addSegment()
 {
-    if (SegmentCount == 30)
+    if (SegmentCount == 50)
         return;
     segment secondLastCopy = player[SegmentCount - 2];
     segment lastCopy = player[SegmentCount - 1];
@@ -196,7 +201,7 @@ void addSegment()
 }
 void die()
 {
-    Sleep(500);
+    Sleep(300);
     alive = 0;
     clearscreen();
     system("cls");
@@ -232,15 +237,16 @@ void hitBorder()
 void spreadFruit()
 {
     srand(time(NULL));
-    f.x = (rand() % (sizeX - 4)) + 2;
+    f.x = (rand() % (sizeX));
     srand(time(NULL));
-    f.y = (rand() % (sizeY - 4)) + 2;
+    f.y = (rand() % (sizeY));
 }
 void gatherFruit()
 {
     if (player[0].x == f.x && player[0].y == f.y)
     {
         score++;
+        timer -= score/10;
         spreadFruit();
         addSegment();
     }
