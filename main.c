@@ -25,7 +25,7 @@ typedef enum
 } direction;
 void displayClear(), changeDirection(), move(), clearscreen(), displayPlayer(), addSegment(), die(), killYourself(), hitBorder(), displayFruit(), gatherFruit(), spreadFruit(), printGame();
 direction current = right;
-segment player[50] = {{3, 7},{3, 6}, {3, 5},{3, 4} };
+segment player[50] = {{3, 7}, {3, 6}, {3, 5}, {3, 4}};
 char display[sizeX][sizeY];
 int SegmentCount = 4;
 byte alive = 1;
@@ -34,9 +34,6 @@ int timer = 100;
 byte highscore = 0;
 int wantToPlay = 1;
 
-
-
-
 int main(int argc, char const *argv[])
 {
 
@@ -44,14 +41,18 @@ start:
     alive = 1;
     score = 0;
     timer = 100;
-    player[0].x = 3;player[0].y = 7;
-    player[1].x = 3;player[1].y = 6;
-    player[2].x = 3;player[2].y = 5;
-    player[3].x = 3;player[3].y = 4;
+    player[0].x = 3;
+    player[0].y = 7;
+    player[1].x = 3;
+    player[1].y = 6;
+    player[2].x = 3;
+    player[2].y = 5;
+    player[3].x = 3;
+    player[3].y = 4;
     SegmentCount = 4;
     current = right;
 
-    
+
 
     system("cls");
     spreadFruit();
@@ -75,7 +76,7 @@ start:
     }
     printf("highscore is: %i", highscore);
 ask:
-    
+
     printf("\nDo you want to Play agin?(y/n)\n");
     char c = _getch();
     if (c == 'y')
@@ -246,7 +247,7 @@ void gatherFruit()
     if (player[0].x == f.x && player[0].y == f.y)
     {
         score++;
-        timer -= score/10;
+        timer -= score / 10;
         spreadFruit();
         addSegment();
     }
