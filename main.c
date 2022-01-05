@@ -68,7 +68,7 @@ start:
         displayFruit();
         printGame();
         move();
-        Sleep(timer);
+        Sleep(50);
     }
     if (score > highscore)
     {
