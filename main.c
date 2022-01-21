@@ -9,11 +9,11 @@
 #include "string.h"
 typedef struct
 {
-    int x, y;
+    int x:6, y:6;
 } segment;
 typedef struct fruit
 {
-    int x, y;
+    int x:6, y:6;
 } fruit;
 fruit f = {5, 7};
 typedef enum
@@ -58,11 +58,11 @@ start:
     spreadFruit();
     while (alive)
     {
-        clearscreen();
         if (_kbhit())
         {
             changeDirection();
         }
+        clearscreen();
         displayClear();
         displayPlayer();
         displayFruit();
