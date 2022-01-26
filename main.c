@@ -9,11 +9,11 @@
 #include "string.h"
 typedef struct
 {
-    int x:6, y:6;
+    int x : 6, y : 6;
 } segment;
 typedef struct fruit
 {
-    int x:6, y:6;
+    int x : 6, y : 6;
 } fruit;
 fruit f = {5, 7};
 typedef enum
@@ -23,7 +23,19 @@ typedef enum
     left = -2,
     right = 2
 } direction;
-void displayClear(), changeDirection(), move(), clearscreen(), displayPlayer(), addSegment(), die(), killYourself(), hitBorder(), displayFruit(), gatherFruit(), spreadFruit(), printGame();
+void displayClear(),
+    changeDirection(),
+    move(),
+    clearscreen(),
+    displayPlayer(),
+    addSegment(),
+    die(),
+    killYourself(),
+    hitBorder(),
+    displayFruit(),
+    gatherFruit(),
+    spreadFruit(),
+    printGame();
 direction current = right;
 segment player[50] = {{3, 7}, {3, 6}, {3, 5}, {3, 4}};
 char display[sizeX][sizeY];
@@ -51,8 +63,6 @@ start:
     player[3].y = 4;
     SegmentCount = 4;
     current = right;
-
-
 
     system("cls");
     spreadFruit();
