@@ -161,9 +161,47 @@ void displayPlayer()
 }
 void changeDirection()
 {
-	
-	if(_getch() != 224)
-	char y = _getch();
+	char y =_getch();
+	if(y != 224)
+	{
+			switch (y)
+	{
+	case 'w':
+		if (abs(current) == abs(up))
+		{
+			break;
+		}
+		current = up;
+
+		break;
+	case 'a':
+		if (abs(current) == abs(left))
+		{
+			break;
+		}
+		current = left;
+		break;
+	case 's':
+		if (abs(current) == abs(down))
+		{
+			break;
+		}
+		current = down;
+		break;
+	case 'd':
+		if (abs(current) == abs(right))
+		{
+			break;
+		}
+		current = right;
+		break;
+
+	default:
+		break;
+	}		
+		return;
+	}
+	y = _getch();
 	switch (y)
 	{
 	case 72:
