@@ -161,10 +161,12 @@ void displayPlayer()
 }
 void changeDirection()
 {
+	
+	if(_getch() != 224)
 	char y = _getch();
 	switch (y)
 	{
-	case 'w':
+	case 72:
 		if (abs(current) == abs(up))
 		{
 			break;
@@ -172,21 +174,21 @@ void changeDirection()
 		current = up;
 
 		break;
-	case 'a':
+	case 75:
 		if (abs(current) == abs(left))
 		{
 			break;
 		}
 		current = left;
 		break;
-	case 's':
+	case 80:
 		if (abs(current) == abs(down))
 		{
 			break;
 		}
 		current = down;
 		break;
-	case 'd':
+	case 77:
 		if (abs(current) == abs(right))
 		{
 			break;
